@@ -1,20 +1,13 @@
-# start by pulling the python image
 FROM python:3.7.9-slim
 
-# copy the requirements file into the image
-COPY ./requirements.txt /app/requirements.txt
+RUN mkdir -p /usr/src/app
 
-# switch working directory
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# install the dependencies and packages in the requirements file
-RUN pip install -r requirements.txt
-RUN python pre_requisites.py
+COPY . /usr/src/app
 
-# copy every content from the local file to the image
-COPY . /app
+RUN pip install -r /usr/src/app/requirements.txt
 
-# configure the container to run in an executed manner
-ENTRYPOINT [ "python" ]
+RUN python /usr/src/app/pre_requisites.py
 
-CMD ["app.py" ]
+RUN python /usr/src/app/app.py
