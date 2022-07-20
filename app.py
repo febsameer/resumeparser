@@ -43,7 +43,7 @@ def parseResume():
         except:
             resp = jsonify({'message' : 'Server Error'})
             resp.status_code = 503
-            return 
+            return resp
     else:
         resp = jsonify({'message' : 'Allowed file types are txt, pdf, png, jpg, jpeg, gif'})
         resp.status_code = 400
@@ -71,7 +71,7 @@ def parseBase64():
         except:
             resp = jsonify({'message' : 'Server Error'})
             resp.status_code = 503
-            return 
+            return resp
     else:
         resp = jsonify({'message' : 'Allowed file types are txt, pdf, png, jpg, jpeg, gif'})
         resp.status_code = 400

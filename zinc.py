@@ -16,7 +16,6 @@ def createResumeDoc(contents):
       'Content-Type': 'application/json'
     }
     
-    print(headers)
     response = requests.request("POST", url, headers=headers, data=payload)
 
     return response
