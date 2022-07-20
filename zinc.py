@@ -15,7 +15,7 @@ def createResumeDoc(contents):
     headers = {
       'Authorization': 'Basic ' + cred,
       'Content-Type': 'application/json'
-    }z
+    }
 
     response = requests.request("POST", url, headers=headers, data=payload)
 
