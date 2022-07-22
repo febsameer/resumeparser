@@ -1,14 +1,9 @@
 import requests
-import json
 import os
 
 url = "http://localhost:4080/api/resume/_doc"
 
-def createResumeDoc(contents):
-    payload = json.dumps({
-      "contents": contents
-    })
-    
+def createResumeDoc(payload):
     cred = os.environ.get('zincCred','')
     
     headers = {
