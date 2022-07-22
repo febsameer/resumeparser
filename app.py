@@ -23,36 +23,35 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/zinc/populate', methods=['POST'])
-def PopulateZinc():
-    CID = request.json['CID']
-    consultantID = request.json['consultantID']
-    docName = request.json['docName']
-    docUrl = request.json['docUrl']
-    # try:
-    fileName = str(time.time_ns()) + secure_filename(docName)
-    filePath = os.path.join(app.config['UPLOAD_FOLDER'], fileName)
-    fileExt = '.' + fileName.split('.')[1]
-    
-    uRequest.urlretrieve(docUrl, filePath)
+def PopulateZinc():  
+    try:
+        docName = request.json['docName']
+        docUrl = request.json['docUrl']
+        
+        fileName = str(time.time_ns()) + secure_filename(docName)
+        filePath = os.path.join(app.config['UPLOAD_FOLDER'], fileName)
+        fileExt = '.' + fileName.split('.')[1]
+        
+        uRequest.urlretrieve(docUrl, filePath)
 
-    data = fileutils.extract_text(filePath, fileExt)
+        data = fileutils.extract_text(filePath, fileExt)
 
-    payload = json.dumps({
-        "CID": CID,
-        "consultantID": consultantID,
-        "docName": docName,
-        "data": data
-    })
-    
-    response = zinc.createResumeDoc(payload)
-    
-    os.remove(filePath)
-    
-    return (response.text, response.status_code, response.headers.items())
-    # except:
-        # resp = jsonify({'message' : 'Server Error'})
-        # resp.status_code = 503
-        # return resp
+        payload = json.dumps({
+            "CID": request.json['CID'],
+            "consultantID": request.json['consultantID'],
+            "docName": docName,
+            "data": ' '.join(data.split())
+        })
+        
+        response = zinc.createResumeDoc(payload)
+        
+        os.remove(filePath)
+        
+        return (response.text, response.status_code, response.headers.items())
+    except:
+        resp = jsonify({'message' : 'Server Error'})
+        resp.status_code = 503
+        return resp
 
 @app.route('/parse/base64', methods=['POST'])
 def parseBase64():
