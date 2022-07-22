@@ -36,18 +36,23 @@ def PopulateZinc():
 
         data = fileutils.extract_text(filePath, fileExt)
 
-        payload = json.dumps({
-            "CID": request.json['CID'],
-            "consultantID": request.json['consultantID'],
-            "docName": docName,
-            "data": ' '.join(data.split())
-        })
-        
-        response = zinc.createResumeDoc(payload)
-        
-        os.remove(filePath)
-        
-        return (response.text, response.status_code, response.headers.items())
+        if str(data) == 1:
+            resp = jsonify({'message' : 'Not able to extract text from the file'})
+            resp.status_code = 400
+            return resp
+        else:
+            payload = json.dumps({
+                "CID": request.json['CID'],
+                "consultantID": request.json['consultantID'],
+                "docName": docName,
+                "data": ' '.join(data.split())
+            })
+            
+            response = zinc.createResumeDoc(payload)
+            
+            os.remove(filePath)
+            
+            return (response.text, response.status_code, response.headers.items())
     except:
         resp = jsonify({'message' : 'Server Error'})
         resp.status_code = 503
