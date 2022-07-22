@@ -36,7 +36,7 @@ def PopulateZinc():
 
         data = fileutils.extract_text(filePath, fileExt)
 
-        if str(data) == 1:
+        if len(data) < 10:
             resp = jsonify({'message' : 'Not able to extract text from the file'})
             resp.status_code = 400
             return resp
