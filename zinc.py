@@ -29,7 +29,7 @@ def searchResume(cid, query):
                     {
                         "query_string":
                         {
-                            "query": "+CID:" + cid " " + buildQuery(query)
+                            "query": "+CID:" + cid + " " + buildQuery(query)
                         }
                     }
                 ]
