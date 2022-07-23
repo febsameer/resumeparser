@@ -25,14 +25,14 @@ def allowed_file(filename):
 @app.route('/zinc/search', methods=['POST'])
 def searchZinc():  
     try:
-        cid = request.json['cid']
+        cid = request.json['CID']
         query = request.json['query']
         
-        response = zinc.searchResume(payload)
+        response = zinc.searchResume(cid, query)
         
         return (response.text, response.status_code, response.headers.items())
-    except:
-        resp = jsonify({'message' : 'Server Error'})
+    except BaseException as e:
+        resp = jsonify({'message' : e})
         resp.status_code = 503
         return resp  
     

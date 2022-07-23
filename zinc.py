@@ -29,7 +29,7 @@ def searchResume(cid, query):
                     {
                         "query_string":
                         {
-                            "query": "+CID:" + cid + " " + buildQuery(query)
+                            "query": "+CID:" + str(cid) + " " + buildQuery(query)
                         }
                     }
                 ]
@@ -67,7 +67,7 @@ def buildTerm(term):
 def buildQuery(query):
     zQuery = '+'
     
-    for term in search.split():
+    for term in query.split():
         bTerm = buildTerm(term)
         if bTerm == '':
             zQuery += term + ' '
