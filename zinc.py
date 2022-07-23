@@ -19,27 +19,18 @@ def createResumeDoc(payload):
     
 
 def searchResume(cid, query):
+    query = "+CID:" + str(cid) + " " + buildQuery(query)
+    
     params = {
-        "query":
-        {
-            "bool":
-            {
-                "must":
-                [
-                    {
-                        "query_string":
-                        {
-                            "query": "+CID:" + str(cid) + " " + buildQuery(query)
-                        }
-                    }
-                ]
-            }
-        },
-        "sort":
-        [
-            "-@timestamp"
-        ]
-    }
+    "search_type": "querystring",
+    "query": {
+        "term": query
+    },
+    "sort_fields": ["_score"],
+    "from": 0,
+    "max_results": 20,
+    "_source": ["consultantID"]
+}
     
     cred = os.environ.get('zincCred','')
     
@@ -51,7 +42,8 @@ def searchResume(cid, query):
     
     zinc_url = host + "/api/" + index + "/_search"
 
-    return requestsrequest("POST", zinc_url, headers=headers, data=json.dumps(params))
+    res = requests.request("POST", zinc_url, headers=headers, data=json.dumps(params))
+    return res
 
 def buildTerm(term):
     term = term.upper()
