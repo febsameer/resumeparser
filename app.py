@@ -22,6 +22,20 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+@app.route('/zinc/search', methods=['POST'])
+def searchZinc():  
+    try:
+        cid = request.json['cid']
+        query = request.json['query']
+        
+        response = zinc.searchResume(payload)
+        
+        return (response.text, response.status_code, response.headers.items())
+    except:
+        resp = jsonify({'message' : 'Server Error'})
+        resp.status_code = 503
+        return resp  
+    
 @app.route('/zinc/populate', methods=['POST'])
 def PopulateZinc():  
     try:
