@@ -51,7 +51,7 @@ def searchResume(cid, query):
     
     zinc_url = host + "/api/" + index + "/_search"
 
-    return requests.post(zinc_url, headers=headers, data=json.dumps(params))
+    return requestsrequest("POST", zinc_url, headers=headers, data=params)
 
 def buildTerm(term):
     term = term.upper()
