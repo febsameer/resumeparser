@@ -67,7 +67,7 @@ def PopulateZinc():
                 "consultantID": request.json['consultantID'],
                 "skills": request.json['skills'],
                 "functionalArea": request.json['functionalArea'],
-                "education": request.json['consultantID'],
+                "education": request.json['education'],
                 "designation": request.json['designation'],
                 "location": request.json['location'],
                 "isActive": request.json['isActive'],
