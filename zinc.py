@@ -12,8 +12,9 @@ def createResumeDoc(docId, payload):
       'Content-Type': 'application/json'
     }
     
-    zinc_url = host + "/api/" + index + "/_doc/" + docId
-    response = requests.request("POST", zinc_url, headers=headers, data=payload)
+    zinc_url = host + "/api/" + index + "/_doc/" + str(docId)
+    # print(zinc_url)
+    response = requests.request("PUT", zinc_url, headers=headers, data=payload)
 
     return response
     
