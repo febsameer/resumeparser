@@ -4,7 +4,7 @@ import json
 index = "resume"
 host = "http://localhost:4080"
 
-def createResumeDoc(payload):
+def createResumeDoc(docId, payload):
     cred = os.environ.get('zincCred','')
     
     headers = {
@@ -12,7 +12,7 @@ def createResumeDoc(payload):
       'Content-Type': 'application/json'
     }
     
-    zinc_url = host + "/api/" + index + "/_doc"
+    zinc_url = host + "/api/" + index + "/_doc/" + docId
     response = requests.request("POST", zinc_url, headers=headers, data=payload)
 
     return response

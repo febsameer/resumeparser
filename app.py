@@ -22,6 +22,13 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def generateId(cid, consultantId):
+        cid = str(cid)
+        consultantId = str(consultantId)
+        cid += consultantId
+          
+        return int(cid)
+        
 @app.route('/zinc/search', methods=['POST'])
 def searchZinc():  
     try:
@@ -58,11 +65,17 @@ def PopulateZinc():
             payload = json.dumps({
                 "CID": request.json['CID'],
                 "consultantID": request.json['consultantID'],
+                "skills": request.json['skills'],
+                "functionalArea": request.json['functionalArea'],
+                "education": request.json['consultantID'],
+                "designation": request.json['designation'],
+                "location": request.json['location'],
+                "isActive": request.json['isActive'],
                 "docName": docName,
                 "data": ' '.join(data.split())
             })
             
-            response = zinc.createResumeDoc(payload)
+            response = zinc.createResumeDoc(generateId(request.json['CID'], request.json['consultantID']), payload)
             
             os.remove(filePath)
             
